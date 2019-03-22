@@ -50,7 +50,6 @@ public class ApkInfo {
     private List<String> apkSign;
 
 
-
     public void addAppNameKey(String key) {
         this.AppNameKey.add(key);
     }
@@ -59,9 +58,9 @@ public class ApkInfo {
         this.features = new ArrayList<>();
         this.icons = new HashMap<>();
         this.AppName = new HashMap<>();
-        this.AppNameKey=new ArrayList<>();
+        this.AppNameKey = new ArrayList<>();
         this.usesPermissions = new ArrayList<>();
-        this.apkSign=new ArrayList<>();
+        this.apkSign = new ArrayList<>();
     }
 
     public List<String> getFeatures() {
@@ -161,7 +160,7 @@ public class ApkInfo {
     }
 
     public void setSize(float size) {
-        this.size = (float) (size*1.0/(1024*1024));
+        this.size = (float) (size * 1.0 / (1024 * 1024));
     }
 
     public String getTargetSdkVersion() {

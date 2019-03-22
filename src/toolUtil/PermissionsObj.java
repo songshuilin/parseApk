@@ -6,9 +6,9 @@ public class PermissionsObj {
     private String PermissionsExplan;
 
     public PermissionsObj(String a, String b, String c) {
-    Permissionskey=a;
-    PermissionsName=b;
-    PermissionsExplan=c;
+        Permissionskey = a;
+        PermissionsName = b;
+        PermissionsExplan = c;
 
     }
 

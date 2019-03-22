@@ -1,6 +1,6 @@
 package apkinfo;
 
-import javax.swing.*;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +14,7 @@ public class ApkUtil {
     public static final String APPLICATION_LABEL = "application-label";
     public static final String APPLICATION_LABEL_N = "application: label";
     public static final String DENSITIES = "densities";
-    public static final String AppName="application-label";
+    public static final String AppName = "application-label";
     public static final String LAUNCHABLE_ACTIVITY = "launchable";
     public static final String PACKAGE = "package";
     public static final String SDK_VERSION = "sdkVersion";
@@ -38,57 +38,55 @@ public class ApkUtil {
 
 
     //获取apk签名信息
-    public String  getApkSign(String apkPath){
-        StringBuffer sb=new StringBuffer();
-        String keyTool="keytool";
-        Process process=null;
-        InputStream inputStream=null;
-        BufferedReader bufferedReader=null;
+    public String getApkSign(String apkPath) {
+        StringBuffer sb = new StringBuffer();
+        String keyTool = "keytool";
+        Process process = null;
+        InputStream inputStream = null;
+        BufferedReader bufferedReader = null;
         try {
             //出exe才这样写。
-//            File f=new File("");
-//            keyTool=f.getCanonicalPath()+"\\res\\"+keyTool;
+//          File f=new File("");
+//          keyTool=f.getCanonicalPath()+"\\res\\"+keyTool;
 
-
-            keyTool="src\\tool\\"+keyTool;
-            System.out.println("keyTool : "+keyTool);
+            //  keyTool="src\\tool\\"+keyTool;
             //直接用JRE中bin中的keytool
-            process=builder.command(keyTool,"-printcert","-jarfile",apkPath).start();
+            process = builder.command(keyTool, "-printcert", "-jarfile", apkPath).start();
             inputStream = process.getInputStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "GBK"));
             String temp = null;
             while ((temp = bufferedReader.readLine()) != null) {
-                temp=temp.trim();
-                if ("".equalsIgnoreCase(temp)){
+                temp = temp.trim();
+                if ("".equalsIgnoreCase(temp)) {
                     continue;
                 }
-                if (temp.startsWith("MD5")){
-                    temp=temp.toLowerCase().replace("md5","");
-                    temp=temp.replace(":","");
-                    sb.append("MD5:"+temp+"\n");
-                    continue;
-                }
-
-                if (temp.startsWith("SHA1")){
-                    temp=temp.toLowerCase().replace("sha1","");
-                    temp=temp.replace(":","");
-                    sb.append("SHA1:"+temp+"\n");
+                if (temp.startsWith("MD5")) {
+                    temp = temp.toLowerCase().replace("md5", "");
+                    temp = temp.replace(":", "");
+                    sb.append("MD5:" + temp + "\n");
                     continue;
                 }
 
-                if (temp.startsWith("SHA256")){
-                    temp=temp.toLowerCase().replace("sha256","");
-                    temp=temp.replace(":","");
-                    sb.append("SHA256:"+temp+"\n");
+                if (temp.startsWith("SHA1")) {
+                    temp = temp.toLowerCase().replace("sha1", "");
+                    temp = temp.replace(":", "");
+                    sb.append("SHA1:" + temp + "\n");
                     continue;
                 }
-                sb.append(temp+"\n");
+
+                if (temp.startsWith("SHA256")) {
+                    temp = temp.toLowerCase().replace("sha256", "");
+                    temp = temp.replace(":", "");
+                    sb.append("SHA256:" + temp + "\n");
+                    continue;
+                }
+                sb.append(temp + "\n");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("sb=="+sb.toString());
-        return  sb.toString().substring(sb.indexOf("所有者"),sb.indexOf("版本"));
+        System.out.println("sb==" + sb.toString());
+        return sb.toString().substring(sb.indexOf("所有者"), sb.indexOf("版本"));
     }
 
     //获取apk信息
@@ -98,13 +96,12 @@ public class ApkUtil {
         InputStream inputStream = null;
         BufferedReader bufferedReader = null;
         try {
-        String aaptTool = "aapt";
+            String aaptTool = "aapt";
             //出exe才这样写。
 //             File f=new File("");
 //             aaptTool=f.getCanonicalPath()+"\\res\\"+aaptTool;
 
-            aaptTool="src\\tool\\"+aaptTool;
-            System.out.println("aaptTool : "+aaptTool);
+            aaptTool = "src\\tool\\" + aaptTool;
             process = builder.command(aaptTool, "d", "badging", apkPath).start();
             inputStream = process.getInputStream();
             bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"));
@@ -114,7 +111,7 @@ public class ApkUtil {
 
             while ((temp = bufferedReader.readLine()) != null) {
                 setApkInfoProperty(apkInfo, temp);
-              // System.out.println(temp);
+                // System.out.println(temp);
             }
             return apkInfo;
         } catch (IOException e) {
@@ -151,11 +148,11 @@ public class ApkUtil {
             //System.out.println(APPLICATION_ICON + " : ");
             apkInfo.addToIcons(getKeyBeforeColon(source), getPropertyInQuote(source));
 
-        }else if (source.startsWith(AppName)){
+        } else if (source.startsWith(AppName)) {
             //System.out.println("添加名称："+getPropertyInQuote(source));
             String[] rs = getKeyBeforeColon(source).split("-");
             apkInfo.addAppNameKey(rs[rs.length - 1]);
-            apkInfo.addAppName(rs[rs.length - 1],getPropertyInQuote(source));
+            apkInfo.addAppName(rs[rs.length - 1], getPropertyInQuote(source));
         } else if (source.startsWith(APPLICATION_LABEL)) {
             //System.out.println(APPLICATION_LABEL + " : ");
             apkInfo.setLabel(getPropertyInQuote(source));
@@ -178,12 +175,12 @@ public class ApkUtil {
             //System.out.println(USES_PERMISSION + " : ");
             apkInfo.addToUsesPermissions(getPropertyInQuote(source));
         } else if (source.startsWith(USES_FEATURE)) {
-           // System.out.println(USES_FEATURE + " : ");
+            // System.out.println(USES_FEATURE + " : ");
             apkInfo.addToFeatures(getPropertyInQuote(source));
         } else {
             //System.out.println("Others : ");
         }
-       // System.out.println(source);
+        // System.out.println(source);
     }
 
     private String getKeyBeforeColon(String source) {

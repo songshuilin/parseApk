@@ -1,4 +1,4 @@
-package GUI;
+package gui;
 
 import toolUtil.*;
 import apkinfo.ApkInfo;
@@ -27,22 +27,20 @@ public class ApkinfotoUI {
     private Map AppName;
     private List AppNamekey;
     private ItemListener itemListener;
-    private String filePath;
     private JLabel IcoBox;
     private JTable jTable_Permissions;
     private JTextArea jTextArea;//显示签名信息
-    private JTable jTable_Otherinfo;
     private JScrollPane jPanel_Sign;//签名信息的panel
 
 
     public ApkinfotoUI(JTextField Edit_FilePath, JTextField Edit_AppName, JTextField Edit_PackageName, JTextField Edit_VersionName,
-                       JTextField Edit_Version, JTextField Edit_MD5,JTextField Edit_Apksieze, JComboBox jComboBox_lang, JLabel IcoBox, JTable jTable_Permissions
-            ,JScrollPane jPanel_Sign, JTable jTable_Otherinfo
+                       JTextField Edit_Version, JTextField Edit_MD5, JTextField Edit_Apksieze, JComboBox jComboBox_lang, JLabel IcoBox, JTable jTable_Permissions
+            , JScrollPane jPanel_Sign
     ) {
         this.Edit_FilePath = Edit_FilePath;
         this.Edit_AppName = Edit_AppName;
         this.Edit_MD5 = Edit_MD5;
-        this.Edit_ApkSize=Edit_Apksieze;
+        this.Edit_ApkSize = Edit_Apksieze;
         this.Edit_PackageName = Edit_PackageName;
         this.Edit_Version = Edit_Version;
         this.Edit_VersionName = Edit_VersionName;
@@ -50,12 +48,10 @@ public class ApkinfotoUI {
         this.IcoBox = IcoBox;
         this.jTable_Permissions = jTable_Permissions;
         this.jPanel_Sign = jPanel_Sign;
-        this.jTable_Otherinfo = jTable_Otherinfo;
 
 
         jTextArea = new JTextArea();//需要在换行的地方加入\n
         jTextArea.setSize(600, 1500);
-
 
         itemListener = getItemListener();
         jComboBox_lang.removeItemListener(itemListener);
@@ -63,10 +59,9 @@ public class ApkinfotoUI {
     }
 
     public void OpenApkFile(String filePath) {
-        this.filePath = filePath;
         ApkUtil apkUtil = new ApkUtil();
         ApkInfo apkInfo = apkUtil.parseApk(filePath);
-        String  signInfo=  apkUtil.getApkSign(filePath);
+        String signInfo = apkUtil.getApkSign(filePath);
 
         jTextArea.setText(signInfo);
         jPanel_Sign.add(jTextArea);
@@ -76,8 +71,8 @@ public class ApkinfotoUI {
         Edit_FilePath.setText(filePath);
         Edit_PackageName.setText(apkInfo.getPackageName());
         Edit_AppName.setText(apkInfo.getLabel());
-        String size=String.format("%.2f", apkInfo.getSize());
-        Edit_ApkSize.setText(size+" M");//取小数点两位
+        String size = String.format("%.2f", apkInfo.getSize());
+        Edit_ApkSize.setText(size + " M");//取小数点两位
         Edit_VersionName.setText(apkInfo.getVersionName());
         Edit_Version.setText(apkInfo.getVersionCode());
         AppName = apkInfo.getAppName();
@@ -149,7 +144,7 @@ public class ApkinfotoUI {
         String DataArray[][] = new String[map.size()][4];
         for (Object key : map.keySet()) {
             PermissionsObj obj = (PermissionsObj) map.get(key);
-            DataArray[i][0] = String.valueOf(i+1);
+            DataArray[i][0] = String.valueOf(i + 1);
             DataArray[i][1] = obj.getPermissionskey();
             DataArray[i][2] = obj.getPermissionsName();
             DataArray[i][3] = obj.getPermissionsExplan();
@@ -158,7 +153,7 @@ public class ApkinfotoUI {
 
         //构建表格模型
         String[] jTable_Permissions_colname = {"编号", "英文名", "权限名称", "权限注释"};
-        DefaultTableModel model = new DefaultTableModel(DataArray, jTable_Permissions_colname){
+        DefaultTableModel model = new DefaultTableModel(DataArray, jTable_Permissions_colname) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false;

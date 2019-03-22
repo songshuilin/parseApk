@@ -1,4 +1,5 @@
 package toolUtil;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,7 +9,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
- *MD5计算工具 xuxile 2017-09-13
+ * MD5计算工具 xuxile 2017-09-13
  */
 public class Md5CaculateUtil {
 

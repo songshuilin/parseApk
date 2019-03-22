@@ -31,23 +31,23 @@ public class PermissionsUtil {
             //用exe4j 工具出exe才这样写。
 //            File f=new File("");
 //            String filepath=f.getCanonicalPath()+"\\res\\Permissionsinfo.dat";
-             String filepath=this.getClass().getResource("/Permissionsinfo.dat").getPath();
+            String filepath = this.getClass().getResource("/Permissionsinfo.dat").getPath();
 
-                InputStreamReader read = new InputStreamReader(new FileInputStream(filepath), "utf-8");
-                BufferedReader reader = new BufferedReader(read);
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] str = line.split("/");
-                    for (int i = 0; i < str.length; i++) {
-                        List_PermissionsKey.add(str[0]);
-                        List_PermissionsName.add(str[1]);
-                        List_PermissionsNotes.add(str[2]);
-                    }
+            InputStreamReader read = new InputStreamReader(new FileInputStream(filepath), "utf-8");
+            BufferedReader reader = new BufferedReader(read);
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] str = line.split("/");
+                for (int i = 0; i < str.length; i++) {
+                    List_PermissionsKey.add(str[0]);
+                    List_PermissionsName.add(str[1]);
+                    List_PermissionsNotes.add(str[2]);
                 }
-                read.close();
+            }
+            read.close();
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null,e.getMessage(),"出错啦！",JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, e.getMessage(), "出错啦！", JOptionPane.WARNING_MESSAGE);
             e.printStackTrace();
         }
     }
